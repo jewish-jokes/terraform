@@ -7,7 +7,7 @@ resource "aws_instance" "ec2_instance" {
   instance_type = "t2.micro"
   user_data = file("start-node.js-container.sh")
   vpc_security_group_ids = [aws_security_group.ec2_instance-sg.id]
-
+  key_name = "ec2-connect"
   tags = {
     Name = "my_ec2_instance"
   }
@@ -16,14 +16,21 @@ resource "aws_instance" "ec2_instance" {
 resource "aws_security_group" "ec2_instance-sg" {
   name = "my_ec2_instance-sg"
 
-  ingress = {
+  ingress {
     to_port = 80
     from_port = 80
     protocol = "tcp"
     cidr_blocks = [ "0.0.0.0/0" ]
-  }
+  } 
 
-  egress =  {
+  ingress {
+    to_port = 22
+    from_port = 22
+    protocol = "tcp"
+    cidr_blocks = [ "0.0.0.0/0" ]
+  } 
+
+  egress {
     to_port = 0
     from_port = 0
     protocol = "-1"
