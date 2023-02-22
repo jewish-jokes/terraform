@@ -5,7 +5,7 @@ provider "aws" {
 resource "aws_instance" "ec2_instance" {
   ami = "ami-0c0d3776ef525d5dd"
   instance_type = "t2.micro"
-  user_data = file("start-node.js-container.sh")
+  user_data = file("install-docker.sh")
   vpc_security_group_ids = [aws_security_group.ec2_instance-sg.id]
   key_name = "ec2-connect"
   tags = {
